@@ -1,0 +1,9 @@
+package io.github.rozarioc33.task_management_api.repository;
+
+import io.github.rozarioc33.task_management_api.entity.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TaskRepository extends JpaRepository<Task, Long> {
+}
