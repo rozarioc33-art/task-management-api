@@ -32,4 +32,16 @@ public class TaskService {
         return taskRepository.findById(taskId)
                 .orElse(null);
     }
+
+    public Task updateTask(Task task, Long taskId) {
+
+        Task existingTask = taskRepository.findById(taskId)
+                .orElse(null);
+
+        existingTask.setTitle(task.getTitle());
+        existingTask.setDescription(task.getDescription());
+        existingTask.setCompleted(task.isCompleted());
+
+        return taskRepository.save(existingTask);
+    }
 }
