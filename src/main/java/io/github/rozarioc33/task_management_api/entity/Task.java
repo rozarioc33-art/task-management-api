@@ -18,8 +18,10 @@ public class Task {
 
     private boolean completed;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     public Long getId() {

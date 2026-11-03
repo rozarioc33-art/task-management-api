@@ -4,6 +4,7 @@ import io.github.rozarioc33.task_management_api.entity.Task;
 import io.github.rozarioc33.task_management_api.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,6 +17,10 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
+
+        task.setCreatedAt(LocalDateTime.now());
+        task.setUpdatedAt(LocalDateTime.now());
+
         return taskRepository.save(task);
     }
 
