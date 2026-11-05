@@ -2,6 +2,8 @@ package io.github.rozarioc33.task_management_api.controller;
 
 import io.github.rozarioc33.task_management_api.entity.Task;
 import io.github.rozarioc33.task_management_api.service.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +19,46 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+
+        Task savedTask = taskService.createTask(task);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(savedTask);
     }
 
     @GetMapping
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    public ResponseEntity<List<Task>> getAllTasks() {
+
+        List<Task> tasks = taskService.getAllTasks();
+
+        return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable("id") Long taskId) {
-        return taskService.getTaskById(taskId);
+    public ResponseEntity<Task> getTaskById(@PathVariable("id") Long taskId) {
+
+        Task task = taskService.getTaskById(taskId);
+
+        return ResponseEntity.ok(task);
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@RequestBody Task task, @PathVariable("id") Long taskId) {
-        return taskService.updateTask(task, taskId);
+    public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable("id") Long taskId) {
+
+        Task updatedTask = taskService.updateTask(task, taskId);
+
+        return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable("id") Long taskId) {
+    public ResponseEntity<Void> deleteTask(@PathVariable("id") Long taskId) {
+
         taskService.deleteTask(taskId);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }
