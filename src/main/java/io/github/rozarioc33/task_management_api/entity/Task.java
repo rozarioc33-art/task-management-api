@@ -1,6 +1,8 @@
 package io.github.rozarioc33.task_management_api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +14,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title cannot be blank")
+    @Size(max = 100, message = "Title cannot exceed 100 characters")
     private String title;
 
+    @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
 
     private boolean completed;
