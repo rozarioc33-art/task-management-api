@@ -2,6 +2,7 @@ package io.github.rozarioc33.task_management_api.controller;
 
 import io.github.rozarioc33.task_management_api.entity.Task;
 import io.github.rozarioc33.task_management_api.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+    public ResponseEntity<Task> createTask(
+            @Valid @RequestBody Task task
+    ) {
 
         Task savedTask = taskService.createTask(task);
 
@@ -45,7 +48,10 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable("id") Long taskId) {
+    public ResponseEntity<Task> updateTask(
+            @Valid @RequestBody Task task,
+            @PathVariable("id") Long taskId
+    ) {
 
         Task updatedTask = taskService.updateTask(task, taskId);
 
