@@ -29,14 +29,13 @@ public class TaskService {
     }
 
     public Task getTaskById(Long taskId) {
-        return taskRepository.findById(taskId)
-                .orElse(null);
+
+        return taskRepository.findById(taskId).orElseThrow();
     }
 
     public Task updateTask(Task task, Long taskId) {
 
-        Task existingTask = taskRepository.findById(taskId)
-                .orElse(null);
+        Task existingTask = taskRepository.findById(taskId).orElseThrow();
 
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
@@ -47,8 +46,7 @@ public class TaskService {
 
     public void deleteTask(Long taskId) {
 
-        Task existingTask = taskRepository.findById(taskId)
-                .orElse(null);
+        Task existingTask = taskRepository.findById(taskId).orElseThrow();
 
         taskRepository.delete(existingTask);
     }

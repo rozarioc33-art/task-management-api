@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -42,29 +43,41 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable("id") Long taskId) {
 
-        Task task = taskService.getTaskById(taskId);
+        try {
+            Task task = taskService.getTaskById(taskId);
+            return ResponseEntity.ok(task);
 
-        return ResponseEntity.ok(task);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(
             @Valid @RequestBody Task task,
-            @PathVariable("id") Long taskId
-    ) {
+            @PathVariable("id") Long taskId) {
 
-        Task updatedTask = taskService.updateTask(task, taskId);
+        try {
+            Task updatedTask = taskService.updateTask(task, taskId);
 
-        return ResponseEntity.ok(updatedTask);
+            return ResponseEntity.ok(updatedTask);
+
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable("id") Long taskId) {
 
-        taskService.deleteTask(taskId);
+        try {
+            taskService.deleteTask(taskId);
 
-        return ResponseEntity
-                .noContent()
-                .build();
+            return ResponseEntity.noContent().build();
+
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
