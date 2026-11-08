@@ -1,6 +1,7 @@
 package io.github.rozarioc33.task_management_api.controller;
 
 import io.github.rozarioc33.task_management_api.entity.Task;
+import io.github.rozarioc33.task_management_api.exception.TaskNotFoundException;
 import io.github.rozarioc33.task_management_api.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -41,19 +42,21 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable("id") Long taskId) {
+    public ResponseEntity<?> getTaskById(@PathVariable("id") Long taskId) {
 
         try {
             Task task = taskService.getTaskById(taskId);
             return ResponseEntity.ok(task);
 
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
+        } catch (TaskNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(
+    public ResponseEntity<?> updateTask(
             @Valid @RequestBody Task task,
             @PathVariable("id") Long taskId) {
 
@@ -62,22 +65,26 @@ public class TaskController {
 
             return ResponseEntity.ok(updatedTask);
 
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
+        } catch (TaskNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable("id") Long taskId) {
+    public ResponseEntity<?> deleteTask(@PathVariable("id") Long taskId) {
 
         try {
             taskService.deleteTask(taskId);
 
             return ResponseEntity.noContent().build();
 
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
+        } catch (TaskNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
         }
     }
 }
