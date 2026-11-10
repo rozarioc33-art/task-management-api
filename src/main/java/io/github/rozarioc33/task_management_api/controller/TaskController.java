@@ -53,9 +53,9 @@ public class TaskController {
             @PathVariable("id") Long taskId
     ) {
 
-        Task updatedTask = taskService.updateTask(task, taskId);
+            Task updatedTask = taskService.updateTask(task, taskId);
 
-        return ResponseEntity.ok(updatedTask);
+            return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{id}")
